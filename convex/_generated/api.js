@@ -7,10 +7,11 @@
  * To regenerate, run `npx convex dev`.
  * @module
  */
-import { anyApi } from "convex/server";
+
+import { anyApi, componentsGeneric } from "convex/server";
 
 /**
- * A utility for referencing Convex functions in your app's public API.
+ * A utility for referencing Convex functions in your app's API.
  *
  * Usage:
  * ```js
@@ -18,13 +19,5 @@ import { anyApi } from "convex/server";
  * ```
  */
 export const api = anyApi;
-
-/**
- * A utility for referencing Convex functions in your app's internal API.
- *
- * Usage:
- * ```js
- * const myFunctionReference = internal.myModule.myFunction;
- * ```
- */
 export const internal = anyApi;
+export const components = componentsGeneric();

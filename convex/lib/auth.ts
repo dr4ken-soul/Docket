@@ -4,8 +4,6 @@
 import type {
   QueryCtx,
   MutationCtx,
-  InternalMutationCtx,
-  DataModel,
 } from "../_generated/server";
 import type { GenericId } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
@@ -14,12 +12,12 @@ import { DocketErrorCodes, docketError } from "./errors";
 /**
  * Any function context that can read data and carry an identity.
  */
-export type ReadCtx = QueryCtx<DataModel> | MutationCtx<DataModel> | InternalMutationCtx<DataModel>;
+export type ReadCtx = QueryCtx | MutationCtx;
 
 /**
  * Contexts whose database handle can write.
  */
-type WriteCtx = MutationCtx<DataModel> | InternalMutationCtx<DataModel>;
+type WriteCtx = MutationCtx;
 
 /**
  * Returns the authenticated user identity for this request.
@@ -106,7 +104,7 @@ export async function requireProfileId(ctx: ReadCtx): Promise<GenericId<"users">
  * @returns the users document id or null
  */
 export async function profileIdForQuery(
-  ctx: QueryCtx<DataModel>,
+  ctx: QueryCtx,
 ): Promise<GenericId<"users"> | null> {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {
@@ -127,7 +125,7 @@ export async function profileIdForQuery(
  * @returns the users document id
  */
 export async function ensureUser(
-  ctx: MutationCtx<DataModel> | InternalMutationCtx<DataModel>,
+  ctx: MutationCtx,
 ): Promise<GenericId<"users">> {
   return await lookupOrCreateProfile(ctx);
 }
