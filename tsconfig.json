@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@/convex/*": ["./convex/*"],
+      "@/*": ["./src/*"],
+      "convex/server": ["node_modules/convex/dist/esm-types/server/index.d.ts"],
+      "convex/values": ["node_modules/convex/dist/esm-types/values/index.d.ts"]
+    }
+  },
+  "include": ["src", "convex", "auth.config.ts", "vite.config.ts"]
+}

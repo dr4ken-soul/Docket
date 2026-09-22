@@ -1,0 +1,17 @@
+/**
+ * Tailwind CSS configuration for Docket.
+ *
+ * @type {import('tailwindcss').Config}
+ */
+export default {
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ["var(--font-display)"],
+        body: ["var(--font-body)"],
+      },
+    },
+  },
+  plugins: [],
+};

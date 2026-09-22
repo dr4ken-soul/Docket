@@ -1,0 +1,34 @@
+auth.config.ts(12,3): error TS2561: Object literal may only specify known properties, but 'provider' does not exist in type 'ConvexAuthConfig'. Did you mean to write 'providers'?
+convex/lib/auth.ts(5,3): error TS2305: Module '"convex/server"' has no exported member 'ActionCtx'.
+convex/lib/auth.ts(6,3): error TS2305: Module '"convex/server"' has no exported member 'HttpActionCtx'.
+convex/lib/auth.ts(7,3): error TS2305: Module '"convex/server"' has no exported member 'InternalMutationCtx'.
+convex/lib/auth.ts(8,3): error TS2305: Module '"convex/server"' has no exported member 'MutationCtx'.
+convex/lib/auth.ts(9,3): error TS2305: Module '"convex/server"' has no exported member 'QueryCtx'.
+convex/lib/auth.ts(70,34): error TS7006: Parameter 'q' implicitly has an 'any' type.
+convex/lib/auth.ts(95,34): error TS7006: Parameter 'q' implicitly has an 'any' type.
+convex/lib/auth.ts(126,34): error TS7006: Parameter 'q' implicitly has an 'any' type.
+convex/lib/validators.ts(41,7): error TS2451: Cannot redeclare block-scoped variable 'ISO_DATE'.
+convex/lib/validators.ts(47,7): error TS2451: Cannot redeclare block-scoped variable 'ISO_DATE'.
+convex/lib/validators.ts(54,26): error TS2304: Cannot find name 'DATE_CERTAINTY_VALUES'.
+convex/lib/validators.ts(57,23): error TS2304: Cannot find name 'CONFIDENCE_VALUES'.
+convex/lib/validators.ts(69,35): error TS6133: 'field' is declared but its value is never read.
+convex/lib/validators.ts(99,10): error TS2304: Cannot find name 'DATE_CERTAINTY_VALUES'.
+convex/lib/validators.ts(103,10): error TS2304: Cannot find name 'CONFIDENCE_VALUES'.
+convex/notices.ts(52,16): error TS7023: 'getOrCreatePasteInbox' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
+convex/notices.ts(52,38): error TS2502: 'ctx' is referenced directly or indirectly in its own type annotation.
+convex/notices.ts(52,77): error TS2339: Property '_handler' does not exist on type 'RegisteredMutation<"public", { subject: string; bodyText: string; }, any>'.
+convex/notices.ts(53,9): error TS7022: 'inboxes' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+convex/notices.ts(53,70): error TS7006: Parameter 'q' implicitly has an 'any' type.
+convex/notices.ts(54,9): error TS7022: 'existing' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+convex/notices.ts(54,34): error TS7006: Parameter 'inbox' implicitly has an 'any' type.
+convex/notices.ts(72,24): error TS18046: 'ctx' is of type 'unknown'.
+convex/notices.ts(72,81): error TS7006: Parameter 'q' implicitly has an 'any' type.
+convex/notices.ts(74,23): error TS18046: 'ctx' is of type 'unknown'.
+convex/notices.ts(75,16): error TS18046: 'ctx' is of type 'unknown'.
+convex/notices.ts(81,9): error TS18046: 'ctx' is of type 'unknown'.
+convex/notices.ts(87,14): error TS7022: 'createFromPaste' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+convex/notices.ts(89,3): error TS7023: 'handler' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
+convex/notices.ts(95,11): error TS7022: 'inboxId' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+convex/notices.ts(97,11): error TS7022: 'noticeId' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+src/main.tsx(5,35): error TS2307: Cannot find module '../../convex/_generated/react/client' or its corresponding type declarations.
+src/main.tsx(6,21): error TS2307: Cannot find module './App' or its corresponding type declarations.

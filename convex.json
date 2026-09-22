@@ -1,0 +1,6 @@
+{
+  "$schema": "https://convex.dev/schema.json",
+  "version": 2,
+  "functions": "convex/",
+  "dashboard": "convex/dashboard"
+}
