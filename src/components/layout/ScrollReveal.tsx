@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useRepeatableReveal } from "@/hooks/useRepeatableReveal";
 
 export interface ScrollRevealProps {
@@ -20,26 +20,40 @@ export function ScrollReveal({
   children,
   className,
 }: ScrollRevealProps) {
-  const ref = useRepeatableReveal<HTMLDivElement>();
   if (!stagger) {
     return (
-      <div ref={ref} className={className}>
-        <div className="reveal">{children}</div>
+      <div className={className}>
+        <ScrollRevealItem>{children}</ScrollRevealItem>
       </div>
     );
   }
   const childrenArray = Array.isArray(children) ? children : [children];
   return (
-    <div ref={ref} className={className}>
+    <div className={className}>
       {childrenArray.map((child, i) => (
-        <div
-          key={i}
-          className="reveal"
-          style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
-        >
+        <ScrollRevealItem key={i} delay={i * 0.08}>
           {child}
-        </div>
+        </ScrollRevealItem>
       ))}
+    </div>
+  );
+}
+
+function ScrollRevealItem({
+  children,
+  delay = 0,
+}: {
+  children: ReactNode;
+  delay?: number;
+}) {
+  const ref = useRepeatableReveal<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      className="reveal"
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
+    >
+      {children}
     </div>
   );
 }
