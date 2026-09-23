@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useConvexAuth } from "@convex-dev/auth/react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Landing } from "@/pages/Landing";
 import { SignIn } from "@/pages/SignIn";
 import { Docket } from "@/pages/app/Docket";
@@ -17,8 +20,34 @@ import { NotFound } from "@/pages/NotFound";
  */
 function RequireAuth() {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const ensureCurrent = useMutation(api.users.ensureCurrent);
+  const [profileReady, setProfileReady] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setProfileReady(false);
+      return;
+    }
+
+    let active = true;
+    void ensureCurrent({}).then(() => {
+      if (active) setProfileReady(true);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [ensureCurrent, isAuthenticated]);
+
   if (isLoading) return null;
   if (!isAuthenticated) return <Navigate to="/sign-in" replace />;
+  if (!profileReady) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+        Loading your Docket…
+      </div>
+    );
+  }
   return <Outlet />;
 }
 
