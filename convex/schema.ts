@@ -46,11 +46,23 @@ const draftStatus = v.union(
 export default defineSchema({
   ...authTables,
   users: defineTable({
+    // Convex Auth fields. Keep these fields and indexes when extending the
+    // built-in auth users table with Docket's product profile fields.
+    name: v.optional(v.string()),
+    image: v.optional(v.string()),
+    email: v.optional(v.string()),
+    emailVerificationTime: v.optional(v.number()),
+    phone: v.optional(v.string()),
+    phoneVerificationTime: v.optional(v.number()),
+    isAnonymous: v.optional(v.boolean()),
     authSubject: v.string(),
     displayName: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
-  }).index("byAuthSubject", ["authSubject"]),
+  })
+    .index("email", ["email"])
+    .index("phone", ["phone"])
+    .index("byAuthSubject", ["authSubject"]),
   inboxes: defineTable({
     userId: v.id("users"),
     provider: inboxProvider,
