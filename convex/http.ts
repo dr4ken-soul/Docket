@@ -1,6 +1,7 @@
 import { httpAction } from "./_generated/server";
 import { httpRouter } from "convex/server";
 import { internal } from "./_generated/api";
+import { auth } from "./auth";
 
 const WEBHOOK_PATH = "/webhooks/agentmail";
 
@@ -146,6 +147,10 @@ export const health = httpAction(async () => {
 });
 
 const http = httpRouter();
+
+// Register Convex Auth's OAuth and token endpoints, including
+// /api/auth/signin/github and /api/auth/callback/github.
+auth.addHttpRoutes(http);
 
 http.route({
   method: "POST",
