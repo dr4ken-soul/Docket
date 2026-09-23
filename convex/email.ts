@@ -5,6 +5,7 @@ import { requireProfileId, requireOwnedObligation } from "./lib/auth";
 import { docketError, DocketErrorCodes } from "./lib/errors";
 import { sendInboxMessage, classifyAgentMailError } from "./lib/agentmail";
 import { withRetry } from "./lib/retry";
+import { buildFollowUpDraft } from "./lib/drafts";
 
 const draftStatusValidator = v.union(
   v.literal("draft"),
@@ -95,6 +96,53 @@ export const create = mutation({
     });
     await ctx.db.insert("activityEvents", {
       userId: obligation.userId,
+      obligationId: obligation._id,
+      emailDraftId: draftId,
+      kind: "draft.created",
+      label: "Follow-up draft created",
+      createdAt: now,
+    });
+    return draftId;
+  },
+});
+
+/**
+ * Ensures an obligation has an unsent follow-up draft. This also repairs older
+ * demo obligations created before draft generation was wired into extraction.
+ */
+export const ensureForOwnedObligation = mutation({
+  args: { obligationId: v.id("obligations") },
+  handler: async (ctx, args) => {
+    const userId = await requireProfileId(ctx);
+    const obligation = await requireOwnedObligation(ctx, args.obligationId);
+    const existing = await ctx.db
+      .query("emailDrafts")
+      .withIndex("byObligation", (q) => q.eq("obligationId", obligation._id))
+      .order("desc")
+      .first();
+    if (existing) return existing._id;
+
+    const notice = await ctx.db.get(obligation.noticeId);
+    const recipient = notice?.sender?.includes("@")
+      ? notice.sender
+      : "licensing@example.gov";
+    const draft = buildFollowUpDraft(
+      obligation.title,
+      obligation.actionText,
+      obligation.dueDateText ?? "the requested date",
+      recipient,
+    );
+    const now = Date.now();
+    const draftId = await ctx.db.insert("emailDrafts", {
+      userId,
+      obligationId: obligation._id,
+      ...draft,
+      status: "draft",
+      createdAt: now,
+      updatedAt: now,
+    });
+    await ctx.db.insert("activityEvents", {
+      userId,
       obligationId: obligation._id,
       emailDraftId: draftId,
       kind: "draft.created",

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -21,6 +22,18 @@ export function ObligationDetail() {
       : "skip",
   );
   const complete = useMutation(api.obligations.setStatus);
+  const ensureDraft = useMutation(api.email.ensureForOwnedObligation);
+  const [draftRequested, setDraftRequested] = useState(false);
+
+  useEffect(() => {
+    if (!detail || detail.drafts.length > 0 || draftRequested || !obligationId) {
+      return;
+    }
+    setDraftRequested(true);
+    void ensureDraft({
+      obligationId: obligationId as unknown as import("convex/values").GenericId<"obligations">,
+    });
+  }, [detail, draftRequested, ensureDraft, obligationId]);
 
   if (!detail) {
     return (

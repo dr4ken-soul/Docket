@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { internalMutation, internalQuery, mutation, query } from "./_generated/server";
 import { requireOwnedObligation, requireProfileId } from "./lib/auth";
 import { DocketErrorCodes, docketError } from "./lib/errors";
+import { buildFollowUpDraft } from "./lib/drafts";
 
 const statusValidator = v.union(v.literal("open"), v.literal("review"), v.literal("ready"), v.literal("waiting"), v.literal("complete"), v.literal("archived"));
 
@@ -154,6 +155,20 @@ export const createFromExtraction = internalMutation({
         createdAt: now,
         updatedAt: now,
       });
+      const draft = buildFollowUpDraft(
+        item.title,
+        item.actionText,
+        item.dueDateText ?? "the requested date",
+        notice.sender?.includes("@") ? notice.sender : "licensing@example.gov",
+      );
+      const emailDraftId = await ctx.db.insert("emailDrafts", {
+        userId: notice.userId,
+        obligationId,
+        ...draft,
+        status: "draft",
+        createdAt: now,
+        updatedAt: now,
+      });
       await ctx.db.insert("activityEvents", {
         userId: notice.userId,
         noticeId: notice._id,
@@ -161,6 +176,15 @@ export const createFromExtraction = internalMutation({
         kind: "obligation.created",
         label: "Obligation extracted",
         metadata: { confidence: item.confidence, ...(args.notes ? { notes: args.notes } : {}) },
+        createdAt: now,
+      });
+      await ctx.db.insert("activityEvents", {
+        userId: notice.userId,
+        noticeId: notice._id,
+        obligationId,
+        emailDraftId,
+        kind: "draft.created",
+        label: "Follow-up draft created",
         createdAt: now,
       });
       obligationIds.push(obligationId);

@@ -16,6 +16,7 @@ import type * as http from "../http.js";
 import type * as inboxes from "../inboxes.js";
 import type * as lib_agentmail from "../lib/agentmail.js";
 import type * as lib_auth from "../lib/auth.js";
+import type * as lib_drafts from "../lib/drafts.js";
 import type * as lib_errors from "../lib/errors.js";
 import type * as lib_firecrawl from "../lib/firecrawl.js";
 import type * as lib_llm from "../lib/llm.js";
@@ -42,6 +43,7 @@ declare const fullApi: ApiFromModules<{
   inboxes: typeof inboxes;
   "lib/agentmail": typeof lib_agentmail;
   "lib/auth": typeof lib_auth;
+  "lib/drafts": typeof lib_drafts;
   "lib/errors": typeof lib_errors;
   "lib/firecrawl": typeof lib_firecrawl;
   "lib/llm": typeof lib_llm;
