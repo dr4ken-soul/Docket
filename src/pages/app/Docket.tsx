@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
+import { Link } from "react-router-dom";
 import { api } from "@/convex/_generated/api";
 import { WorkspaceLayout } from "@/components/workspace/WorkspaceLayout";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -156,9 +157,12 @@ function ObligationRow({
   const dueLabel = formatDate(obligation.dueAt);
   return (
     <div className="ledger-row">
-      <span className="font-semibold text-[var(--text-primary)]">
+      <Link
+        to={`/app/obligations/${obligation._id}`}
+        className="font-semibold text-[var(--text-primary)] underline-offset-4 hover:underline"
+      >
         {obligation.title}
-      </span>
+      </Link>
       <span>{dueLabel}</span>
       <span>
         <StatusBadge
